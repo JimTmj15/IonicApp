@@ -1,14 +1,30 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      To-Do-App
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <button ion-button [navPush]="editTaskPage">Create New Task</button>
+
+  <ion-list>
+      <ion-item-sliding *ngFor="let task of taskList; let i = index" #slidingItem>
+        <ion-item>
+          <ion-icon name="timer" color="danger" item-start *ngIf="task.status === 0"></ion-icon>
+          <ion-icon name="checkmark-circle" color="secondary" item-start *ngIf="task.status === 1"></ion-icon>
+          <h2 text-wrap>{{ task.name }}</h2>
+          <p text-wrap>{{ task.description }}</p>
+          <p item-end>{{ task.dueDate }}</p>
+        </ion-item>
+
+        <ion-item-options *ngIf="task.status === 0">
+          <button ion-button color="secondary" (click)="onCompleteTask(task, slidingItem, i)">
+            <ion-icon name="checkmark-circle"></ion-icon>
+            Complete
+          </button>
+        </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
